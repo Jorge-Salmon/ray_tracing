@@ -1,3 +1,3 @@
-## Ray tracing optics (monte carlo)
+## Ray tracing
 
 Ray tracing algorithm in Python.

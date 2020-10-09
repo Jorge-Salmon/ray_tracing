@@ -1,29 +1,28 @@
 #!/usr/bin/env python
 ''' Ray tracer in Python by Jorge Salmon, 2020 '''
 
+from multiprocessing import cpu_count
+
 from image import Image
 from color import Color
+from vector import Vector
+from point import Point
+from sphere import Sphere
+from scene import Scene
+from engine import RenderEngine
+from light import Light
+from material import Material
+
+# import scene
+from scene_2spheres import *
 
 def main():
-    WIDTH = 3
-    HEIGHT = 2
-    im = Image(WIDTH, HEIGHT)
-    red = Color(x=1, y=0, z=0)
-    green = Color(x=0, y=1, z=0)
-    blue = Color(x=0, y=0, z=1)
-    
-    im.set_pixel(0, 0, red)
-    im.set_pixel(1, 0, green)
-    im.set_pixel(2, 0, blue)
-    
-    im.set_pixel(0, 1, red + green)
-    im.set_pixel(1, 1, red + blue + green)
-    im.set_pixel(2, 1, red * 0.001)
+    process_count = cpu_count()
 
-    with open("test.ppm", "w") as img_file:
-        im.write_ppm(img_file)
+    scene = Scene(CAMERA, OBJECTS, LIGHTS, WIDTH, HEIGHT)
+    engine = RenderEngine()
+    with open("scene1.ppm", "w") as img_fileobj:
+        engine.render_multiprocess(scene, process_count, img_fileobj)
 
 if __name__ == "__main__":
     main()
-
-
